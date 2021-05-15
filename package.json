@@ -2,19 +2,20 @@
   "name": "foliage-recognition",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/generate-env-file.js public/ && vite",
+    "build": "vite build && node scripts/generate-env-file.js dist/",
     "serve": "vite preview"
   },
   "dependencies": {
     "vue": "^3.0.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.1",
-    "@vue/compiler-sfc": "^3.0.5",
-    "autoprefixer": "^10.2.5",
-    "postcss": "^8.2.9",
-    "tailwindcss": "^2.0.4",
-    "vite": "^2.1.5"
+    "dotenv": "9.0.2",
+    "@vitejs/plugin-vue": "1.2.2",
+    "@vue/compiler-sfc": "3.0.11",
+    "autoprefixer": "10.2.5",
+    "postcss": "8.2.9",
+    "tailwindcss": "2.0.4",
+    "vite": "2.1.5"
   }
 }
