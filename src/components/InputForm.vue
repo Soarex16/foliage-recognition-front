@@ -20,9 +20,14 @@
 </template>
 
 <script>
+import {shallowRef} from "vue";
+
+import ErrorsListNotificationBody from "./notifications/ErrorsListNotificationBody.vue";
 import ImageInput from "./ImageInput.vue";
 import Card from "./Card.vue";
 import Spinner from "./Spinner.vue";
+
+import {recognize} from "../api";
 
 export default {
   name: 'InputForm',
@@ -39,29 +44,49 @@ export default {
     }
   },
   methods: {
-    updateFiles(field, file) {
-      this.images[field] = file;
+    validateForm() {
+      const errors = [];
+
+      Object.entries(this.images).map(([imgName, img]) => {
+        if (!img) {
+          errors.push([imgName, "field required"]);
+        }
+      });
+
+      return errors;
     },
     async sendData() {
+      const formValidationErrors = this.validateForm();
+      if (formValidationErrors.length > 0) {
+        const bodyComponentRef = shallowRef(ErrorsListNotificationBody);
+        this.$alert({
+          title: 'Error occured while processing request',
+          text: formValidationErrors,
+          level: 'warning',
+          dismissible: true,
+          bodyComp: bodyComponentRef
+        });
+        return;
+      }
+
       this.$emit('request-start');
 
       const formData = new FormData();
       for (const [field, image] of Object.entries(this.images)) {
-        formData.append(field, image);
+        formData.append(`f${field}`, image);
       }
 
       let result, error;
       try {
-        const response = await fetch({
-          url: this.$appConfig.API_ENDPOINT,
-          method: "POST",
-          body: formData
-        });
-        result = await response.json();
+        result = await recognize(this.$appConfig.VUE_APP_API_URL, formData);
       } catch (e) {
         error = e;
       } finally {
-        this.$emit('request-finish', result, error);
+        const resultPayload = {
+          result: result,
+          img: this.images['470'] // прикладываем одно изображение, чтобы можно было использовать его в качестве фона
+        };
+        this.$emit('request-finish', resultPayload, error);
       }
     }
   }

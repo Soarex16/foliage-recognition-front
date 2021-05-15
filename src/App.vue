@@ -2,7 +2,7 @@
   <notification-bar/>
   <split-panel>
     <template v-slot:left>
-      <result-view/>
+      <result-view :value="result"/>
     </template>
 
     <template v-slot:right>
@@ -16,11 +16,15 @@
 </template>
 
 <script>
+import {shallowRef} from "vue";
+
 import ResultView from "./components/ResultView.vue";
 import InputForm from "./components/InputForm.vue";
 import SplitPanel from "./components/SplitPanel.vue";
 import BusyOverlay from "./components/BusyOverlay.vue";
-import NotificationBar from "./components/notification/NotificationBar.vue";
+import NotificationBar from "./components/notifications/NotificationBar.vue";
+import ErrorsListNotificationBody from "./components/notifications/ErrorsListNotificationBody.vue";
+import {AppError} from "./api";
 
 export default {
   name: "App",
@@ -34,7 +38,8 @@ export default {
   data() {
     return {
       loading: false,
-      result: undefined
+      result: undefined,
+      cnt: 0
     }
   },
   methods: {
@@ -42,9 +47,28 @@ export default {
       this.loading = false;
 
       if (err) {
-        //TODO: show error popup
+        let errTitle, errBody;
+
+        if (err instanceof AppError) {
+          errTitle = err.details.errorTitle;
+          errBody = err.details.errorBody;
+        } else if (typeof err === "string") {
+          errBody = err;
+        }
+
+        const bodyComponentRef = shallowRef(ErrorsListNotificationBody);
+        this.$alert({
+          title: errTitle || `Error occurred while processing request`,
+          text: errBody,
+          level: 'danger',
+          dismissible: true,
+          bodyComp: Array.isArray(errBody) && bodyComponentRef
+        });
+        this.result = undefined;
         return;
       }
+
+      this.result = shallowRef(value);
     }
   }
 }
