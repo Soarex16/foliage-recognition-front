@@ -18,13 +18,12 @@
 <script>
 import {shallowRef} from "vue";
 
-import ResultView from "./components/ResultView.vue";
-import InputForm from "./components/InputForm.vue";
-import SplitPanel from "./components/SplitPanel.vue";
-import BusyOverlay from "./components/BusyOverlay.vue";
-import NotificationBar from "./components/notifications/NotificationBar.vue";
-import ErrorsListNotificationBody from "./components/notifications/ErrorsListNotificationBody.vue";
-import {AppError} from "./api";
+import ResultView from "@/components/ResultView.vue";
+import InputForm from "@/components/InputForm.vue";
+import SplitPanel from "@/components/SplitPanel.vue";
+import BusyOverlay from "@/components/BusyOverlay.vue";
+import {NotificationBar, ErrorsListNotificationBody} from "@/modules/notifications/";
+import {AppError} from "@/api";
 
 export default {
   name: "App",

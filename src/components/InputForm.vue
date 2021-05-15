@@ -22,7 +22,7 @@
 <script>
 import {shallowRef} from "vue";
 
-import ErrorsListNotificationBody from "./notifications/ErrorsListNotificationBody.vue";
+import {ErrorsListNotificationBody} from "@/modules/notifications";
 import ImageInput from "./ImageInput.vue";
 import Card from "./Card.vue";
 import Spinner from "./Spinner.vue";

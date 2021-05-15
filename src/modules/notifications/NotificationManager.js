@@ -1,5 +1,6 @@
 import {ref} from "vue";
-import generateId from "../../utils/generateId";
+
+import generateId from "@/utils/generateId";
 
 export const NOTIFICATIONS_INTERNAL_DATA_CONTEXT_KEY = Symbol("notifications-queue");
 const ALERT_TIMEOUT_TIMER = Symbol("timeout-timer");

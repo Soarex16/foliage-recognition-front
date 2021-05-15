@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Card from "./Card.vue";
+import Card from "@/components/Card.vue";
 
 const CLASS_COLOR_MAPPING = {
   1: '#ff00005f', // camouflage

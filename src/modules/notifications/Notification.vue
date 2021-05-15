@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import WarningIcon from "../icons/WarningIcon.vue";
-import InfoIcon from "../icons/InfoIcon.vue";
-import ErrorIcon from "../icons/ErrorIcon.vue";
-import CheckIcon from "../icons/CheckIcon.vue";
-import CrossIcon from "../icons/CrossIcon.vue";
+import WarningIcon from "@/components/icons/WarningIcon.vue";
+import InfoIcon from "@/components/icons/InfoIcon.vue";
+import ErrorIcon from "@/components/icons/ErrorIcon.vue";
+import CheckIcon from "@/components/icons/CheckIcon.vue";
+import CrossIcon from "@/components/icons/CrossIcon.vue";
 
 const variants = ['info', 'warning', 'danger', 'success'];
 

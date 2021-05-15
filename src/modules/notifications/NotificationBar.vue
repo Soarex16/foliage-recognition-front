@@ -14,25 +14,27 @@
         @close="removeNotification(n.id)"
       >
         <template v-slot:header>
-          <component :is="n.headerComp || defaultHeaderComp" :notification="n"/>
+          <component :is="n.headerComp || DefaultNotificationHeaderComponent" :notification="n"/>
         </template>
 
         <template v-slot:body>
-          <component :is="n.bodyComp || defaultBodyComp" :notification="n"/>
+          <component :is="n.bodyComp || DefaultNotificationBodyComponent" :notification="n"/>
         </template>
       </notification>
     </transition-group>
   </div>
 </template>
 
-<script>
+<script setup>
 import {inject} from "vue";
 
 import Notification from "./Notification.vue";
+import {NOTIFICATIONS_INTERNAL_DATA_CONTEXT_KEY} from "./NotificationManager";
+
 import DefaultNotificationBodyComponent from "./default-components/DefaultNotificationBodyComponent.vue";
 import DefaultNotificationHeaderComponent from "./default-components/DefaultNotificationHeaderComponent.vue";
-import {NOTIFICATIONS_INTERNAL_DATA_CONTEXT_KEY} from "./NotificationManager";
-import nop from "../../utils/nop";
+
+import nop from "@/utils/nop";
 
 const defaultAlertContext = {
   notifications: [],
@@ -40,19 +42,5 @@ const defaultAlertContext = {
   clearAll: nop
 };
 
-export default {
-  name: 'NotificationBar',
-  components: {Notification},
-  setup() {
-    const {notifications, removeNotification, clearAll} = inject(NOTIFICATIONS_INTERNAL_DATA_CONTEXT_KEY, defaultAlertContext);
-
-    return {
-      notifications,
-      removeNotification,
-      clearAll,
-      defaultHeaderComp: DefaultNotificationHeaderComponent,
-      defaultBodyComp: DefaultNotificationBodyComponent
-    }
-  }
-}
+const {notifications, removeNotification, clearAll} = inject(NOTIFICATIONS_INTERNAL_DATA_CONTEXT_KEY, defaultAlertContext);
 </script>
