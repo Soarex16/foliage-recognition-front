@@ -1,13 +1,13 @@
+import './styles.css';
+
 import {createApp} from 'vue';
 import App from './App.vue';
 
-import './styles.css';
+import {NotificationManager} from "./components/notifications/NotificationManager";
 
 const app = createApp(App);
+app.use(NotificationManager);
 
-// TODO: провернуть трюк с пробрасыванием переменных в контейнер
-app.config.globalProperties.$appConfig = {
-    API_ENDPOINT: "http://localhost://3000"
-};
+app.config.globalProperties.$appConfig = window.__ENV__;
 
 app.mount('#app');
